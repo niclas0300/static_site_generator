@@ -91,4 +91,13 @@ def text_to_textnodes(text):
     return new_nodes
 
 
+def markdown_to_blocks(markdown):
+    split_list = markdown.split("\n\n")
+    return_list = []
+    for i in range(len(split_list)):
+        if len(split_list[i]) == 0:
+            continue
+        block = split_list[i].strip("\n")
+        return_list.append(block)
+    return return_list
 
