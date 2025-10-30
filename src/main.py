@@ -7,9 +7,9 @@ def main():
     dest_dir = "./docs"
     src = "./static"
     content_path = "./content"
-    basepath = "/"
-    if len(sys.argv[0]) != 0:
-        basepath = sys.argv[0]
+    basepath = "./"
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
     
     copy_job(src, dest_dir)
     generate_pages_recursive(content_path, "template.html", dest_dir, basepath)
