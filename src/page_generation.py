@@ -18,3 +18,35 @@ def generate_page(from_path, template_path, dest_path):
 
 
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    content_dir_list = os.listdir(dir_path_content)
+    print(f"list content dir: {content_dir_list}")
+    print(f"dest dir path: {dest_dir_path}")
+    for content in content_dir_list:
+        joined_dir_path = os.path.join(dir_path_content, content)
+        print(f"joined content path: {joined_dir_path}")
+        joined_dest_path = os.path.join(dest_dir_path, content)
+        if os.path.isfile(joined_dir_path):
+            print(f"joined path file: {joined_dir_path}")
+            content_file = open(joined_dir_path)
+            content_read = content_file.read()
+            content_file.close()
+
+            template_file = open(template_path)
+            template_read = template_file.read()
+            template_file.close()
+
+            content_html_string = markdown_to_html_node(content_read).to_html()
+            content_html_title = extract_title(content_read)
+
+            content_html_file = template_read.replace("{{ Title }}", content_html_title).replace("{{ Content }}", content_html_string)
+
+            if not os.path.exists(dest_dir_path):
+                os.mkdir(dest_dir_path)
+
+            dest_file_path = os.path.join(dest_dir_path, "index.html")
+            to_file = open(dest_file_path, "w")
+            to_file.write(content_html_file)
+            to_file.close()
+        else:
+            generate_pages_recursive(joined_dir_path, template_path, joined_dest_path)

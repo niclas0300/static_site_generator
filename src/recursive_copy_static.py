@@ -8,6 +8,7 @@ def copy_job(src, dst_dir):
     else:
         os.mkdir(dst_dir)
     path_list = os.listdir(src)
+    print(path_list)
     if len(path_list) != 0:
         for path in path_list:
             src_path = os.path.join(src, path)
